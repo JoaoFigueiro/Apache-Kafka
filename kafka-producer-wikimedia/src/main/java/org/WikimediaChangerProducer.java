@@ -27,6 +27,10 @@ public class WikimediaChangerProducer {
         //properties.setProperty("enable.idempotence", "true");
         //properties.setProperty("retries", Integer.toString(Integer.MAX_VALUE);
 
+        properties.setProperty("linger.ms", "20");
+        properties.setProperty("batch.size", Integer.toString(32*1024));
+        properties.setProperty("compression.type", "snappy");
+
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
         String topic = "wikimedia.recentchange";
