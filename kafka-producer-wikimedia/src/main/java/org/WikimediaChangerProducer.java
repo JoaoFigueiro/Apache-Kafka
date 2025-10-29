@@ -23,6 +23,10 @@ public class WikimediaChangerProducer {
         properties.setProperty("key.serializer", StringSerializer.class.getName());
         properties.setProperty("value.serializer", StringSerializer.class.getName());
 
+        //properties.setProperty("acks", "all");
+        //properties.setProperty("enable.idempotence", "true");
+        //properties.setProperty("retries", Integer.toString(Integer.MAX_VALUE);
+
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
         String topic = "wikimedia.recentchange";
