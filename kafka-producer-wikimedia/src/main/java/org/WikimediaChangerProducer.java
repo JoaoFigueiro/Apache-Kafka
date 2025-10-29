@@ -1,13 +1,14 @@
 package org;
 
-import com.launchdarkly.eventsource.EventSource;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.common.serialization.StringSerializer;
-
-import java.beans.EventHandler;
 import java.net.URI;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
+import com.launchdarkly.eventsource.EventSource;
+import com.launchdarkly.eventsource.EventHandler;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 public class WikimediaChangerProducer {
     public static void main(String[] args) throws InterruptedException {
@@ -26,7 +27,7 @@ public class WikimediaChangerProducer {
         String topic = "wikimedia.recentchange";
 
         EventHandler eventHandler = new WikimediaChangeHandler(producer, topic);
-        String url = "https://stram.wikimedia.org/v2/stream/recentchange";
+        String url = "https://stream.wikimedia.org/v2/stream/recentchange";
         EventSource.Builder builder = new EventSource.Builder(eventHandler, URI.create(url));
         EventSource eventSource = builder.build();
 
