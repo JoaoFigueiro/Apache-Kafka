@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.launchdarkly.eventsource.EventSource;
 import com.launchdarkly.eventsource.EventHandler;
 
+import okhttp3.Headers;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -27,8 +28,12 @@ public class WikimediaChangerProducer {
         String topic = "wikimedia.recentchange";
 
         EventHandler eventHandler = new WikimediaChangeHandler(producer, topic);
+
         String url = "https://stream.wikimedia.org/v2/stream/recentchange";
-        EventSource.Builder builder = new EventSource.Builder(eventHandler, URI.create(url));
+
+        Headers headers = Headers.of("User-Agent", "Kafka-Wikimedia-Client/1.0 (https://example.com)");
+
+        EventSource.Builder builder = new EventSource.Builder(eventHandler, URI.create(url)).headers(headers);
         EventSource eventSource = builder.build();
 
         eventSource.start();
